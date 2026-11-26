@@ -1,0 +1,4 @@
+duckdb>=1.1
+pandas>=2.0
+# Spark jobs run on Dataproc (image 2.2, Spark 3.5); pyspark is only needed locally for testing:
+# pyspark==3.5.*
