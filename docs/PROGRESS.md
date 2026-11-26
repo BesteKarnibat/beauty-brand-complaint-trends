@@ -11,7 +11,7 @@ Last updated: November 26, 2026.
 | Silver: typed Parquet, partitioned by category/year | ✅ Done (dedupe happens in Gold) |
 | Gold: star schema tables saved | ✅ Done (`gold/`, Nov 26) |
 | Platinum: brand_year_metrics, category_year | ✅ Rebuilt on deduped data, 4 files |
-| DuckDB checks ("ask it twice") | ✅ Done |
+| DuckDB checks ("ask it twice") | ✅ Done, incl. dedupe (24/24 years) |
 | brand_alias / dim_brand | ✅ Top 100, 44 merges; L'Oréal Professionnel split out |
 | MongoDB Atlas + Atlas Search | ⏳ To do |
 | Claude complaint labeling (MongoDB MCP) | ⏳ To do |
@@ -99,10 +99,14 @@ Feedback from Prof. Barry, things to consider:
   - rebuild Platinum with `.coalesce()` (fix the 1,001 small files)
   - add share of category reviews per brand-year (outcome proxy)
 - [ ] Finish the hand check of `results/brand_alias_merges/` (L'Oréal Professionnel done; Philips Norelco still separate).
-- [ ] DuckDB check of the deduped All_Beauty counts (second engine).
+- [x] DuckDB check of the deduped All_Beauty counts (Nov 26, `queries/check_dedupe_all_beauty.sql`):
+      DuckDB dedupes on its own and matches Spark on all 24 years; 694,252 rows in both.
 - [x] Rerun query 02 on the clean data (Nov 26): same brands, rates within 0.5 pts; TecUnite
       drops out only because 2022 fell to 998 reviews (cutoff 1,000). See `results_so_far.md`.
-- [ ] `infra/fetch_local.sh` hangs on the All_Beauty Silver copy (step 3); marts and results copy fine.
+- [x] `infra/fetch_local.sh` hung on the All_Beauty copy: gcloud 567 crashes (TypeError) on sliced
+      downloads of the 7 bigger files and then hangs, leaving a partial copy (85,688 of 701,528 rows).
+      Fixed by turning sliced/parallel downloads off in the script.
+- [ ] Query 01 compares raw Silver with `category_year`, which is now deduped; update it or retire it.
 - [ ] Query 03: complaints vs share of reviews.
 
 ### Week of Dec 1
