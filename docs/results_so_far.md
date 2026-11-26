@@ -48,6 +48,19 @@ Beauty_and_Personal_Care, brands with ≥ 1,000 reviews in both years (`queries/
 
 Pattern to explain: deodorant and body-care brands keep showing up.
 
+### After dedupe (Nov 26, `build_gold.py` + query 02 rerun)
+
+Removing duplicates moved every rate by 0.5 points or less, and 14 of the 15 brands are the same.
+- **BTYMS** is now #1 at +20.1 (12.0% → 38.2%), followed by iMethod +13.4, EAONE +11.6,
+  CRYSTAL Deodorant +10.9, LKE +10.9.
+- **TecUnite** leaves the table only because its 2022 count fell from just over 1,000 to 998,
+  under the 1,000-review cutoff. Its rate is unchanged (17.5% → 63.4%, +39.9).
+  We keep the 1,000 cutoff and footnote TecUnite in the deck and the dashboard.
+- **Mitchum** (+8.0) is tied with Gold Bond just outside the top 15. **BeautifyBeauties** (+8.3)
+  and **Gold Bond** (+8.0) are new in it.
+- The category rose 6.03 points (15.215% → 21.243%), was 6.05.
+
+
 ## Finding 3: ratings are J-shaped
 
 Beauty_and_Personal_Care: 1★ 11.9% · 2★ 5.3% · 3★ 7.2% · 4★ 10.9% · 5★ 64.7%.

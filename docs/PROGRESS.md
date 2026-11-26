@@ -100,7 +100,9 @@ Feedback from Prof. Barry, things to consider:
   - add share of category reviews per brand-year (outcome proxy)
 - [ ] Finish the hand check of `results/brand_alias_merges/` (L'Oréal Professionnel done; Philips Norelco still separate).
 - [ ] DuckDB check of the deduped All_Beauty counts (second engine).
-- [ ] Rerun query 02 on the clean data; record any changes.
+- [x] Rerun query 02 on the clean data (Nov 26): same brands, rates within 0.5 pts; TecUnite
+      drops out only because 2022 fell to 998 reviews (cutoff 1,000). See `results_so_far.md`.
+- [ ] `infra/fetch_local.sh` hangs on the All_Beauty Silver copy (step 3); marts and results copy fine.
 - [ ] Query 03: complaints vs share of reviews.
 
 ### Week of Dec 1
