@@ -12,7 +12,7 @@ Last updated: November 26, 2026.
 | Gold: star schema tables saved | ✅ Done (`gold/`, Nov 26) |
 | Platinum: brand_year_metrics, category_year | ✅ Rebuilt on deduped data, 4 files |
 | DuckDB checks ("ask it twice") | ✅ Done, incl. dedupe (24/24 years) |
-| brand_alias / dim_brand | ✅ Top 100, 44 merges; L'Oréal Professionnel split out |
+| brand_alias / dim_brand | ✅ Top 100, 51 merges; L'Oréal Professionnel split out, Norelco → Philips |
 | MongoDB Atlas + Atlas Search | ⏳ To do |
 | Claude complaint labeling (MongoDB MCP) | ⏳ To do |
 | Outcome: share of reviews vs complaints | 🟡 share column built; query 03 to do |
@@ -106,7 +106,13 @@ Feedback from Prof. Barry, things to consider:
 - [x] `infra/fetch_local.sh` hung on the All_Beauty copy: gcloud 567 crashes (TypeError) on sliced
       downloads of the 7 bigger files and then hangs, leaving a partial copy (85,688 of 701,528 rows).
       Fixed by turning sliced/parallel downloads off in the script.
-- [ ] Query 01 compares raw Silver with `category_year`, which is now deduped; update it or retire it.
+- [x] Query 01 now reads the clean Gold `fact_review` (Nov 27): all 24 All_Beauty years match Spark,
+      694,252 reviews in both. `fetch_local.sh` also copies Gold All_Beauty to `local/gold/`.
+- [x] Rerun `build_gold.py` with Norelco merged into Philips (Nov 27, 9.0 min, 21/21 checks):
+      Philips 193,292 → 253,272 reviews (+59,980 from 7 Norelco spellings); 51 spellings merged.
+      Query 02 unchanged. Philips Sonicare (29,861 reviews) stays separate for now.
+- [x] `fetch_local.sh` kept old local files after each rerun (Spark writes new file names), so
+      DuckDB counted two runs at once. It now mirrors GCS and deletes files gone from the bucket.
 - [ ] Query 03: complaints vs share of reviews.
 
 ### Week of Dec 1

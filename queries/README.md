@@ -9,7 +9,7 @@ python queries/run.py queries/02_rise_above_category.sql
 
 | # | File | Question | Status |
 |---|------|----------|--------|
-| 1 | `01_ask_twice_all_beauty.sql` | Do DuckDB and Spark agree? | Done: all 24 years match |
+| 1 | `01_ask_twice_all_beauty.sql` | Do DuckDB and Spark agree (on the clean Gold data)? | Done: all 24 years match |
 | 2 | `02_rise_above_category.sql` | Which brands got worse faster than their category? | Done |
 | check | `check_dedupe_all_beauty.sql` | Does DuckDB's dedupe match Spark's? | Done: all 24 years match |
 | 3 | (planned) | Did rising-complaint brands lose share of reviews? | To do |

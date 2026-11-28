@@ -26,10 +26,10 @@ brand_alias only merges spellings into the top 100 beauty brands: an exact manua
 plus "top brand + known suffix" (L'Oreal Paris -> loreal, Dove Men -> dove).
 All other brands keep their old brand_key, so results stay comparable with eda_metrics.py.
 
-Ran on Dataproc (1 master + 2 n2-standard-4, image 2.2) in 8.8-9.1 min (Nov 26, 2026).
+Ran on Dataproc (1 master + 2 n2-standard-4, image 2.2) in 8.8-9.1 min (Nov 26-27, 2026).
 Result: 49,749,156 reviews after dedupe (495,107 removed, as measured by eda_traps.py);
-only 4 duplicate keys had copies with different ratings; 44 spellings merged into
-top-100 brands (L'Oreal Professionnel kept separate); brand_year_metrics written as 4 files. All 21 checks passed.
+only 4 duplicate keys had copies with different ratings; 51 spellings merged into
+top-100 brands (L'Oreal Professionnel kept separate; Norelco counted as Philips); brand_year_metrics written as 4 files. All 21 checks passed.
 """
 import time
 from pyspark.sql import SparkSession, Window, functions as F
@@ -142,6 +142,19 @@ MANUAL = {
     "lorealprofessionnel": "lorealprofessionnel",
     "lorealprofessionnelparis": "lorealprofessionnel",
 }
+# Hand-checked "starts with" merges, for product lines sold under many model names.
+MANUAL_PREFIX = {
+    # Norelco is Philips' shaver line (decided Nov 27): Philips Norelco, Norelco,
+    # Norelco SmartTouch-XL HQ9100 ... all count as Philips.
+    "philipsnorelco": "philips",
+    "norelco": "philips",
+}
+
+def manual(k):
+    """Hand-checked target for brand_norm k, or None."""
+    if k in MANUAL:
+        return MANUAL[k]
+    return next((v for p, v in MANUAL_PREFIX.items() if k.startswith(p)), None)
 # Endings that do not change the brand. Root must be >= 3 characters.
 SUFFIXES = sorted(["paris", "newyork", "usa", "men", "mens", "formen", "professional",
                    "professionnel", "pro", "beauty", "cosmetics", "cosmetic", "makeup",
@@ -161,8 +174,8 @@ def bases(k):
 # Each top brand's canonical root: the shortest suffix-peeled form that is itself a brand.
 root_of = {}
 for t in top100:
-    if t in MANUAL:
-        root_of[t] = (MANUAL[t], "manual")
+    if manual(t):
+        root_of[t] = (manual(t), "manual")
     else:
         hits = [(b, s) for b, s in bases(t) if b in all_keys]
         root_of[t] = (hits[-1][0], "top100_suffix:" + hits[-1][1]) if hits else (t, "top100")
@@ -170,8 +183,8 @@ roots = {r for r, _ in root_of.values()}
 
 alias_rows = []
 for k in all_keys:
-    if k in MANUAL:
-        c, rule = MANUAL[k], "manual"
+    if manual(k):
+        c, rule = manual(k), "manual"
     elif k in root_of:
         c, rule = root_of[k]
     elif k in roots:
