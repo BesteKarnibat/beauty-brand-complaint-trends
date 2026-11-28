@@ -61,6 +61,28 @@ Removing duplicates moved every rate by 0.5 points or less, and 14 of the 15 bra
 - The category rose 6.03 points (15.215% → 21.243%), was 6.05.
 
 
+## Finding 4: rising complaints come before losing share, not with it
+
+Query 03 (`queries/03_complaints_vs_share.sql`), 259 Beauty_and_Personal_Care brands with
+≥ 1,000 reviews in 2019 and 2022. Share = the brand's share of all category reviews.
+
+| Complaint rise 2019→2022 (vs category) | Brands | Median share change 2019→2022 | Median share change 2022→2023 | Lost share 2022→2023 |
+|---|---|---|---|---|
+| Lowest quarter (−15.6 to −2.1 pts) | 65 | −24.5% | −10.8% | 71% |
+| 2nd (−2.0 to +0.4) | 65 | −29.5% | −9.1% | 69% |
+| 3rd (+0.4 to +2.7) | 65 | −23.9% | −22.5% | 86% |
+| Highest quarter (+2.8 to +20.1) | 64 | −29.9% | −20.1% | 75% |
+
+- **Same window: no link** (correlation −0.006). Every group lost about a quarter of its share,
+  because small new brands took a growing slice of the category.
+- **One year later: yes.** Brands whose complaints rose most lost about **twice as much share**
+  in 2023. Correlation −0.174 (rank −0.171), t = −2.84, p < 0.01.
+- **Small effect:** complaint rise explains about 3% of the variation in share change. Complaints
+  are one signal among many, not the main driver.
+- 13 of the 15 top risers from Finding 2 lost share in 2023 (exceptions: LKE +14.2%, Viking Revolution +23.2%).
+- Caveats: reviews stand in for sales; 2023 ends in September, so seasonal brands can be off.
+- Check: the same medians and correlations recomputed in plain Python from the raw mart rows.
+
 ## Finding 3: ratings are J-shaped
 
 Beauty_and_Personal_Care: 1★ 11.9% · 2★ 5.3% · 3★ 7.2% · 4★ 10.9% · 5★ 64.7%.

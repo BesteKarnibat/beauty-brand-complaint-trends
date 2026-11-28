@@ -15,7 +15,7 @@ Last updated: November 26, 2026.
 | brand_alias / dim_brand | ✅ Top 100, 51 merges; L'Oréal Professionnel split out, Norelco → Philips |
 | MongoDB Atlas + Atlas Search | ⏳ To do |
 | Claude complaint labeling (MongoDB MCP) | ⏳ To do |
-| Outcome: share of reviews vs complaints | 🟡 share column built; query 03 to do |
+| Outcome: share of reviews vs complaints | ✅ Query 03: risers lose ~2x share the next year |
 | Reviewer / graph analysis | ⏳ To do |
 | Live or incremental piece | 💡 Stretch |
 | Dashboard, recording, repo walkthrough | ⏳ Final week |
@@ -113,7 +113,9 @@ Feedback from Prof. Barry, things to consider:
       Query 02 unchanged. Philips Sonicare (29,861 reviews) stays separate for now.
 - [x] `fetch_local.sh` kept old local files after each rerun (Spark writes new file names), so
       DuckDB counted two runs at once. It now mirrors GCS and deletes files gone from the bucket.
-- [ ] Query 03: complaints vs share of reviews.
+- [x] Query 03: complaints vs share of reviews (Nov 27). No link in the same window; one year
+      later the biggest complaint risers lost ~2x more share (corr -0.17, p < 0.01). Small effect.
+      See Finding 4 in `results_so_far.md`.
 
 ### Week of Dec 1
 - [ ] MongoDB Atlas: load reviews for ~10 flagged brands (sample; free tier is small).

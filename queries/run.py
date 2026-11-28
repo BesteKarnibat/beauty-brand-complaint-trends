@@ -7,4 +7,4 @@ import sys
 import duckdb
 
 sql = open(sys.argv[1]).read()
-print(duckdb.sql(sql))
+duckdb.sql(sql).show(max_width=250)   # wide enough that no columns are hidden
